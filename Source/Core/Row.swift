@@ -24,7 +24,7 @@
 
 import Foundation
 
-open class RowOf<T>: BaseRow where T: Equatable{
+open class RowOf<T: Equatable>: BaseRow {
 
     private var _value: T? {
         didSet {
@@ -69,6 +69,9 @@ open class RowOf<T>: BaseRow where T: Equatable{
         get { return value }
         set { value = newValue as? T }
     }
+
+    /// Variable used in rows with options that serves to generate the options for that row.
+    public var dataProvider: DataProvider<T>?
 
     /// Block variable used to get the String that should be displayed for the value of this row.
     public var displayValueFor: ((T?) -> String?)? = {

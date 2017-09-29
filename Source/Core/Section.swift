@@ -199,7 +199,7 @@ open class Section {
     var hiddenCache = false
 }
 
-extension Section: MutableCollection, BidirectionalCollection {
+extension Section : MutableCollection, BidirectionalCollection {
 
     // MARK: MutableCollectionType
 
@@ -231,20 +231,20 @@ extension Section: MutableCollection, BidirectionalCollection {
             newValue.wasAddedTo(section: self)
         }
     }
-
+    
     public subscript (range: Range<Int>) -> ArraySlice<BaseRow> {
-        get { return kvoWrapper.rows.map({ $0 as! BaseRow })[range] }
+        get { return ArraySlice<BaseRow>(kvoWrapper.rows.objects(at: IndexSet(integersIn: range)) as! [BaseRow]) }
         set {
             replaceSubrange(range, with: newValue)
         }
     }
 
-    public func index(after i: Int) -> Int { return i + 1 }
-    public func index(before i: Int) -> Int { return i - 1 }
+    public func index(after i: Int) -> Int {return i + 1}
+    public func index(before i: Int) -> Int {return i - 1}
 
 }
 
-extension Section: RangeReplaceableCollection {
+extension Section : RangeReplaceableCollection {
 
     // MARK: RangeReplaceableCollectionType
 
@@ -262,18 +262,18 @@ extension Section: RangeReplaceableCollection {
         }
     }
 
-    public func replaceSubrange<C>(_ subrange: Range<Int>, with newElements: C) where C : Collection, C.Element == BaseRow {
-        for i in subrange.lowerBound..<subrange.upperBound {
+    public func replaceSubrange<C: Collection>(_ subRange: Range<Int>, with newElements: C) where C.Iterator.Element == BaseRow {
+        for i in subRange.lowerBound..<subRange.upperBound {
             if let row = kvoWrapper.rows.object(at: i) as? BaseRow {
                 row.willBeRemovedFromSection()
                 kvoWrapper._allRows.remove(at: kvoWrapper._allRows.index(of: row)!)
             }
         }
 
-        kvoWrapper.rows.replaceObjects(in: NSRange(location: subrange.lowerBound, length: subrange.upperBound - subrange.lowerBound),
+        kvoWrapper.rows.replaceObjects(in: NSRange(location: subRange.lowerBound, length: subRange.upperBound - subRange.lowerBound),
                                        withObjectsFrom: newElements.map { $0 })
 
-        kvoWrapper._allRows.insert(contentsOf: newElements, at: indexForInsertion(at: subrange.lowerBound))
+        kvoWrapper._allRows.insert(contentsOf: newElements, at: indexForInsertion(at: subRange.lowerBound))
         for row in newElements {
             row.wasAddedTo(section: self)
         }
@@ -469,14 +469,5 @@ open class MultivaluedSection: Section {
             cell.formViewController()?.tableView(tableView, commit: .insert, forRowAt: indexPath)
         }
         self <<< addRow
-    }
-
-    /**
-     Method used to get all the values of the section.
-
-     - returns: An Array mapping the row values. [value]
-     */
-    public func values() -> [Any?] {
-        return kvoWrapper._allRows.filter({ $0.baseValue != nil }).map({ $0.baseValue })
     }
 }

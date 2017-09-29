@@ -70,7 +70,7 @@ extension NSExpression {
                 if let range = str.range(of: ".") {
                     return [String(str[str.characters.index(str.startIndex, offsetBy: 1)..<range.lowerBound])]
                 } else {
-                    return [String(str[str.characters.index(str.startIndex, offsetBy: 1)...])]
+                    return [String(str.suffix(from: str.characters.index(str.startIndex, offsetBy: 1)))]
                 }
             default:
                 return []

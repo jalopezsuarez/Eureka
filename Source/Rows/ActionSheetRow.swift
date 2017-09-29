@@ -24,7 +24,7 @@
 
 import Foundation
 
-open class AlertSelectorCell<T> : Cell<T>, CellType where T: Equatable {
+open class AlertSelectorCell<T: Equatable> : Cell<T>, CellType {
 
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,12 +49,10 @@ open class AlertSelectorCell<T> : Cell<T>, CellType where T: Equatable {
 
 public class _ActionSheetRow<Cell: CellType>: OptionsRow<Cell>, PresenterRowType where Cell: BaseCell {
 
-    public typealias ProviderType = SelectorAlertController<_ActionSheetRow<Cell>>
-    
-    public var onPresentCallback: ((FormViewController, ProviderType) -> Void)?
-    lazy public var presentationMode: PresentationMode<ProviderType>? = {
+    public var onPresentCallback: ((FormViewController, SelectorAlertController<Cell.Value>) -> Void)?
+    lazy public var presentationMode: PresentationMode<SelectorAlertController<Cell.Value>>? = {
         return .presentModally(controllerProvider: ControllerProvider.callback { [weak self] in
-            let vc = SelectorAlertController<_ActionSheetRow<Cell>>(title: self?.selectorTitle, message: nil, preferredStyle: .actionSheet)
+            let vc = SelectorAlertController<Cell.Value>(title: self?.selectorTitle, message: nil, preferredStyle: .actionSheet)
             if let popView = vc.popoverPresentationController {
                 guard let cell = self?.cell, let tableView = cell.formViewController()?.tableView else { fatalError() }
                 popView.sourceView = tableView
@@ -88,7 +86,7 @@ public class _ActionSheetRow<Cell: CellType>: OptionsRow<Cell>, PresenterRowType
 }
 
 /// An options row where the user can select an option from an ActionSheet
-public final class ActionSheetRow<T>: _ActionSheetRow<AlertSelectorCell<T>>, RowType where T: Equatable {
+public final class ActionSheetRow<T: Equatable>: _ActionSheetRow<AlertSelectorCell<T>>, RowType {
     required public init(tag: String?) {
         super.init(tag: tag)
     }

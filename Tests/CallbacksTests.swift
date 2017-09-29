@@ -50,7 +50,6 @@ class CallbacksTests: XCTestCase {
         onChangeTest(row:PopoverSelectorRow<String>(), value: "text")
         onChangeTest(row:SliderRow(), value: 5.0)
         onChangeTest(row:StepperRow(), value: 2.5)
-        onChangeTest(row:PickerInputRow(), value: "Option 2")
     }
 
     func testCellSetup() {
@@ -63,7 +62,6 @@ class CallbacksTests: XCTestCase {
         cellSetupTest(row:PopoverSelectorRow<String>())
         cellSetupTest(row:SliderRow())
         cellSetupTest(row:StepperRow())
-        cellSetupTest(row:PickerInputRow<String>())
     }
 
     func testCellUpdate() {
@@ -76,7 +74,6 @@ class CallbacksTests: XCTestCase {
         cellUpdateTest(row:PopoverSelectorRow<String>())
         cellUpdateTest(row:SliderRow())
         cellUpdateTest(row:StepperRow())
-        cellUpdateTest(row:PickerInputRow<String>())
     }
 
     func testDefaultCellSetup() {
@@ -89,7 +86,6 @@ class CallbacksTests: XCTestCase {
         defaultCellSetupTest(row:PopoverSelectorRow<String>())
         defaultCellSetupTest(row:SliderRow())
         defaultCellSetupTest(row:StepperRow())
-        defaultCellSetupTest(row:PickerInputRow<String>())
     }
 
     func testDefaultCellUpdate() {
@@ -102,7 +98,6 @@ class CallbacksTests: XCTestCase {
        defaultCellUpdateTest(row: PopoverSelectorRow<String>())
        defaultCellUpdateTest(row: SliderRow())
        defaultCellUpdateTest(row: StepperRow())
-       defaultCellUpdateTest(row: PickerInputRow<String>())
     }
 
     func testDefaultInitializers() {
@@ -115,7 +110,6 @@ class CallbacksTests: XCTestCase {
        defaultInitializerTest(row: PopoverSelectorRow<String>())
        defaultInitializerTest(row: SliderRow())
        defaultInitializerTest(row: StepperRow())
-       defaultInitializerTest(row: PickerInputRow<String>())
     }
 
     func testOnRowValidationChenged() {
@@ -129,7 +123,7 @@ class CallbacksTests: XCTestCase {
         onRowValidationTests(row: SliderRow(), value: 5.0)
         onRowValidationTests(row: StepperRow(), value: 2.5)
         onRowValidationTests(row: TimeInlineRow(), value: Date())
-        onRowValidationTests(row: PickerInputRow<String>(), value: "Hi!!")
+
     }
 
     private func onChangeTest<Row, Value>(row:Row, value:Value) where Row: BaseRow, Row: RowType, Value == Row.Cell.Value {
@@ -166,7 +160,7 @@ class CallbacksTests: XCTestCase {
         var invoked = false
         row.validationOptions = ValidationOptions.validatesOnChange
         row.add(rule: RuleClosure { _ in return ValidationError(msg: "Validation Error") })
-        row.onRowValidationChanged { _, _ in
+        row.onRowValidationChanged { _ in
             invoked = true
         }
         formVC.form +++ Section() <<< row

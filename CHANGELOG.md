@@ -1,10 +1,13 @@
-# Change Log
+﻿# Change Log
 All notable changes to this project will be documented in this file.
 
-### [4.0.0](https://github.com/xmartlabs/Eureka/releases/tag/4.0.0)
+### [3.1.0b](https://github.com/jalopezsuarez/Eureka)
 
-* Xcode 9, Swift 4 support.
-* Add the values of MultivaluedSection into form.values().
+Bug fixes & stability improvements:
+
+* Made changes to follow Swift 4.0 guidelines.
+
+
 
 ### [3.1.0](https://github.com/xmartlabs/Eureka/releases/tag/3.1.0)
 
@@ -55,7 +58,7 @@ Bug fixes & stability improvements:
 * Adds RuleClosure example in code comments.
 * Removing the forced navigationAccessoryView.tintColor set #921.
 
-Thanks to all contributors!! 🍻🍻🍻🍻🍻🍻
+Thanks to all contributors!! ðŸ�»ðŸ�»ðŸ�»ðŸ�»ðŸ�»ðŸ�»
 
 ### [2.0.1](https://github.com/xmartlabs/Eureka/releases/tag/2.0.1)
 
@@ -136,7 +139,7 @@ Take a look at [2.0.0 Migration guide]() for more information on how to solve br
 * Added ability to show a text when there is no value selected to some rows.
 * Fixed: The top divider of a PickerInlineRow disappears upon selection.
 * Fixed crash when selecting a date. DatePickerRow.
-* Ensure inline row is visible when it’s expanded.
+* Ensure inline row is visible when itâ€™s expanded.
 * Fixed PostalAddressRow - When a long form is scrolled up/down, values in Address box disappears.
 
 ### [1.5.0](https://github.com/xmartlabs/Eureka/releases/tag/1.5.0)

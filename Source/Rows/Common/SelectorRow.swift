@@ -43,16 +43,13 @@ open class PushSelectorCell<T: Equatable> : Cell<T>, CellType {
 }
 
 /// Generic row type where a user must select a value among several options.
-open class SelectorRow<Cell: CellType>: OptionsRow<Cell>, PresenterRowType where Cell: BaseCell {
+open class SelectorRow<Cell: CellType, VCType: TypedRowControllerType>: OptionsRow<Cell>, PresenterRowType where Cell: BaseCell, VCType: UIViewController, VCType.RowValue == Cell.Value {
 
-    
-    public typealias PresenterRow = SelectorViewController<SelectorRow<Cell>>
-    
     /// Defines how the view controller will be presented, pushed, etc.
-    open var presentationMode: PresentationMode<PresenterRow>?
+    open var presentationMode: PresentationMode<VCType>?
 
     /// Will be called before the presentation occurs.
-    open var onPresentCallback: ((FormViewController, PresenterRow) -> Void)?
+    open var onPresentCallback: ((FormViewController, VCType) -> Void)?
 
     required public init(tag: String?) {
         super.init(tag: tag)
@@ -79,7 +76,7 @@ open class SelectorRow<Cell: CellType>: OptionsRow<Cell>, PresenterRowType where
      */
     open override func prepare(for segue: UIStoryboardSegue) {
         super.prepare(for: segue)
-        guard let rowVC = segue.destination as? PresenterRow else { return }
+        guard let rowVC = segue.destination as? VCType else { return }
         rowVC.title = selectorTitle ?? rowVC.title
         rowVC.onDismissCallback = presentationMode?.onDismissCallback ?? rowVC.onDismissCallback
         onPresentCallback?(cell.formViewController()!, rowVC)

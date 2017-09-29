@@ -110,6 +110,18 @@ public enum ControllerProvider<VCType: UIViewController> {
 }
 
 /**
+ *  Responsible for the options passed to a selector view controller
+ */
+public struct DataProvider<T: Equatable> {
+
+    public let arrayData: [T]?
+
+    public init(arrayData: [T]) {
+        self.arrayData = arrayData
+    }
+}
+
+/**
  Defines how a controller should be presented.
  
  - Show?:           Shows the controller with `showViewController(...)`.
@@ -450,6 +462,9 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
             tableView.autoresizingMask = UIViewAutoresizing.flexibleWidth.union(.flexibleHeight)
             if #available(iOS 9.0, *) {
                 tableView.cellLayoutMarginsFollowReadableWidth = false
+            }
+            if #available(iOS 11.0, *) {
+                tableView.contentInsetAdjustmentBehavior = .never
             }
         }
         if tableView.superview == nil {
